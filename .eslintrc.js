@@ -28,5 +28,12 @@ module.exports = {
     'object-shorthand': 'off',
     'class-methods-use-this': 'off',
     'import/extensions': 'off',
+    'no-param-reassign': [
+      'error',
+      {
+        props: true,
+        ignorePropertyModificationsFor: ['state'],
+      },
+    ],
   },
-}
+};

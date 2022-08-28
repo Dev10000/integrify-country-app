@@ -1,4 +1,5 @@
 # Frontend project - read carefully.
+
 ## Installation
 
 You should use either `npm` or `yarn` but not both. It's recommended to use `yarn`
@@ -13,28 +14,26 @@ yarn install
 
 To run the project, run
 
-````bash
+```bash
 yarn start
-````
+```
 
 <br />
 
 ### Features that come with this template
 
-* Redux
-* Redux-thunk
-* Redux-saga
-* React-router
-* TypeScript
-* Prettier
-* ESLint
-* Husky & lint-staged
+- Redux
+- Redux-thunk
+- Redux-saga
+- React-router
+- TypeScript
+- Prettier
+- ESLint
+- Husky & lint-staged
 
 <br />
 
 ## Requirements of the project:
-
-
 
 1. **Tech stack:**
 
@@ -49,8 +48,6 @@ yarn start
    5. Fork the repo and do the required changes
 
    6. if you are going to update any package, make sure it's compatible with other packages
-
-
 
 2. **Features you are required to implement:**
 
@@ -86,7 +83,6 @@ yarn start
 7. **OPEN a PR** as soon as you get your first task or feature implemented.
 8. **PUSH** to GitHub daily
 
-
 <br />
 
 ### As a team
@@ -114,25 +110,24 @@ Sending me/Vincent a message saying my app is broken would help **no one**.
 
 ## Reminder
 
-* The frontend project is the most important assignment of the frontend module.
-  * I'll evaluate your project where this evaluation would go to the BD (sales) team.
-  * if you are working as a team I'll see your Trello board and follow up with your team. to make sure everyone gets the evaluation that he/she deserves.
-* There will be a frontend test (multi-choice type of questions) before starting the backend module.
+- The frontend project is the most important assignment of the frontend module.
+  - I'll evaluate your project where this evaluation would go to the BD (sales) team.
+  - if you are working as a team I'll see your Trello board and follow up with your team. to make sure everyone gets the evaluation that he/she deserves.
+- There will be a frontend test (multi-choice type of questions) before starting the backend module.
 
 <br />
 
 ## FAQ
 
-
-* What if I finished earlier?
-  * You can always have extra tasks; reach out to me if you need help on what to add.
-* Can I add more features?
-  * Sure you can, but first, you are required to finish the requirements
-* I'm progressing slowly! I'm stuck!
-  * Reach out to me or Vincent. (Remember you have a deadline to meet)
-* I'm not good at styling! I'm still a newbie in JS!
-  * styling could be ignored and just focus on the functionalities
-  * JS/TS is giving you a headache? book a 1on1 or keep on struggling alone😢
-* Can I know my own evaluation?
-  * this data is between me and the BD team
-  * you can still book 1on1 session with me or send me a DM where I would tell you my opinion of your tech/soft skills.
+- What if I finished earlier?
+  - You can always have extra tasks; reach out to me if you need help on what to add.
+- Can I add more features?
+  - Sure you can, but first, you are required to finish the requirements
+- I'm progressing slowly! I'm stuck!
+  - Reach out to me or Vincent. (Remember you have a deadline to meet)
+- I'm not good at styling! I'm still a newbie in JS!
+  - styling could be ignored and just focus on the functionalities
+  - JS/TS is giving you a headache? book a 1on1 or keep on struggling alone😢
+- Can I know my own evaluation?
+  - this data is between me and the BD team
+  - you can still book 1on1 session with me or send me a DM where I would tell you my opinion of your tech/soft skills.
