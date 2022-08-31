@@ -1,11 +1,15 @@
 import React from 'react';
+import { Container } from '@mui/material';
 import Table from './components/Table';
+import Header from './components/Header';
 
 export default function App() {
   return (
     <div>
-      <h1>Lets build Countries App</h1>
-      <Table />
+      <Header />
+      <Container>
+        <Table />
+      </Container>
     </div>
   );
 }

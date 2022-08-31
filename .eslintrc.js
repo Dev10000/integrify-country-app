@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'eslint:recommended',
+    // 'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'airbnb',
@@ -21,6 +21,7 @@ module.exports = {
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
+    'no-bitwise': ['error', { allow: ['|'] }],
     'no-unused-vars': 'warn',
     'no-console': 'off',
     'func-names': 'off',

@@ -65,7 +65,7 @@ function Table() {
       <Typography
         variant="h3"
         component="h3"
-        sx={{ textAling: 'center', mt: 3, mb: 3 }}>
+        sx={{ textAlign: 'center', mt: 3, mb: 3 }}>
         Countries List
       </Typography>
       <DataGrid
