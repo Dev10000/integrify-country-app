@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import moment from 'moment';
 
@@ -59,8 +59,9 @@ function Table() {
   return (
     <Box
       sx={{
-        height: 400,
-        width: '100%',
+        marginTop: 6,
+        display: 'flex',
+        flexDirection: 'column',
       }}>
       <Typography
         variant="h3"
@@ -68,11 +69,17 @@ function Table() {
         sx={{ textAlign: 'center', mt: 3, mb: 3 }}>
         Countries List
       </Typography>
-      <DataGrid
-        columns={columns}
-        rows={rowData}
-        getRowId={(row: any) => row.id}
-      />
+      <Paper
+        sx={{
+          height: 600,
+          width: '100%',
+        }}>
+        <DataGrid
+          columns={columns}
+          rows={rowData}
+          getRowId={(row: any) => row.id}
+        />
+      </Paper>
     </Box>
   );
 }
