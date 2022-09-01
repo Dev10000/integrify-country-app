@@ -1,57 +1,93 @@
+/* eslint-disable prettier/prettier */
 import React, { useMemo } from 'react';
 import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import moment from 'moment';
+// import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCountriesThunk } from '../features/counter/countriesSlice';
+import { AppDispatch, RootState } from '../app/store';
 
-const rowData = [
-  {
-    id: '1',
-    name: 'Test Name',
-    email: 'test@email.com',
-    password: '12345',
-    photoURL: '',
-    createdAt: '2022-03-10T11:51:46.607+00:00',
-    active: true,
-    role: 'basic',
-  },
-];
+// const rowData = [
+//   {
+//     id: '1',
+//     row: '1',
+//     name: 'Test Name',
+//     languages: 'test@email.com',
+//     region: '12345',
+//     flagURL: '',
+//     // createdAt: '2022-03-10T11:51:46.607+00:00',
+//     population: '12345678',
+//     role: 'basic',
+//   },
+// ];
 
 function Table() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { countries } = useSelector((state: RootState) => state);
+  console.log('state', countries);
+
+  // const countryMapping = (data: any): any => {
+  //   let mapped;
+  //   if (data) {
+  //     mapped = data.map((country: any, index: any): any => ({
+  //       name: country.name.common,
+  //       population: country.population,
+  //       languges: JSON.stringify(Object.values(country.languages)),
+  //       region: country.region,
+  //       flag: country.flags.png,
+  //       ccn3: country.ccn3,
+  //       row: index.toString(),
+  //     }));
+  //   }
+  //   console.log('mapped', mapped);
+  //   return mapped;
+  // };
+
+  console.log('items', countries.items);
+  // console.log('mapping:', countryMapping(countries.items));
+
   const columns: GridColDef[] = useMemo(
     () => [
       {
-        field: 'photoURL',
-        headerName: 'Avatar',
+        field: 'id',
+        headerName: 'Row ##',
+        filterable: false,
+        renderCell: (index) => index.api.getRowIndex(index.row.row) + 1,
+      },
+      {
+        field: 'flag',
+        headerName: 'Flag',
         width: 60,
-        renderCell: (params) => <Avatar src={params.row.photoURL} />,
+        renderCell: (params) => <Avatar src={params.row.flag} />,
         sortable: false,
         filterable: false,
       },
-      { field: 'name', headerName: 'Nane', width: 170 },
-      { field: 'email', headerName: 'Email', width: 200 },
+      { field: 'name', headerName: 'Name', width: 170 },
+      // { field: 'languages', headerName: 'Languages', width: 200 },
       {
-        field: 'role',
-        headerName: 'Role',
-        width: 100,
-        type: 'singleSelect',
-        valueOptions: ['basic', 'editor', 'admin'],
-        editable: true,
-      },
-      {
-        field: 'active',
-        headerName: 'Active',
-        width: 100,
-        type: 'boolean',
-        editable: true,
-      },
-      {
-        field: 'createdAt',
-        headerName: 'Created At',
+        field: 'region',
+        headerName: 'Region',
         width: 200,
-        renderCell: (params) =>
-          moment(params.row.createdAt).format('YYY-MM-DD HH:MM:SS'),
+        // type: 'singleSelect',
+        // valueOptions: ['basic', 'editor', 'admin'],
+        // editable: true,
       },
-      { field: 'id', headerName: 'Id', width: 220 },
+      {
+        field: 'population',
+        headerName: 'Population',
+        width: 200,
+        // type: 'boolean',
+        // editable: true,
+      },
+      // {
+      //   field: 'createdAt',
+      //   headerName: 'Created At',
+      //   width: 200,
+      //   renderCell: (params) =>
+      //     moment(params.row.createdAt).format('YYY-MM-DD HH:MM:SS'),
+      // },
+      { field: 'row', headerName: 'Row #', width: 200, sortable: false },
+      { field: 'ccn3', headerName: 'Id', width: 200 },
     ],
     []
   );
@@ -63,6 +99,9 @@ function Table() {
         display: 'flex',
         flexDirection: 'column',
       }}>
+      <button type="button" onClick={() => dispatch(fetchCountriesThunk())}>
+        Button
+      </button>
       <Typography
         variant="h3"
         component="h3"
@@ -76,8 +115,9 @@ function Table() {
         }}>
         <DataGrid
           columns={columns}
-          rows={rowData}
-          getRowId={(row: any) => row.id}
+          rows={countries.flat}
+          // rows={[]}
+          getRowId={(row: any) => row.row}
         />
       </Paper>
     </Box>
