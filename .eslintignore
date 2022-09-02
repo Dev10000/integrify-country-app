@@ -1,3 +1,5 @@
 .eslintrc.js
 country_data.js
 test.js
+/src/features/counter/**
+/src/app/**

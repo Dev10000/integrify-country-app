@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 // import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountriesThunk } from '../features/counter/countriesSlice';
 import { AppDispatch, RootState } from '../app/store';
+import UsersActions from './UsersActions';
 
 // const rowData = [
 //   {
@@ -24,7 +25,7 @@ import { AppDispatch, RootState } from '../app/store';
 function Table() {
   const dispatch = useDispatch<AppDispatch>();
   const { countries } = useSelector((state: RootState) => state);
-  console.log('state', countries);
+  const [rowId, setRowId] = useState(null);
 
   useEffect(() => {
     dispatch(fetchCountriesThunk());
@@ -97,6 +98,14 @@ function Table() {
       // },
       { field: 'row', headerName: 'Row #', width: 200, sortable: false },
       { field: 'ccn3', headerName: 'Id', width: 200 },
+      {
+        field: 'actions',
+        headerName: 'Add to Cart',
+        type: 'actions',
+        renderCell: (params) => (
+          <UsersActions props={undefined} {...{ params, rowId, setRowId }} />
+        ),
+      },
     ],
     []
   );

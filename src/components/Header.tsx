@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes, { InferProps } from 'prop-types';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -14,6 +15,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { ModeNight } from '@mui/icons-material';
+import { Switch } from '@mui/material';
 import LeftDrawer from './LeftDrawer';
 
 const Search = styled('div')(({ theme }) => ({
@@ -56,7 +59,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+function PrimarySearchAppBar({
+  mode,
+  setMode,
+}: any): InferProps<typeof PrimarySearchAppBar.propTypes> & any {
   const [anchorEl, setAnchorEl]: any = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl]: any = React.useState(null);
 
@@ -182,6 +188,14 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton component="a" href="#simple-list">
+              <ModeNight />
+
+              <Switch
+                onChange={() => setMode(mode === 'light' ? 'dark' : 'light')}
+              />
+            </IconButton>
+
             <IconButton
               size="large"
               aria-label="show 4 new mails"
@@ -227,3 +241,15 @@ export default function PrimarySearchAppBar() {
     </Box>
   );
 }
+
+// PrimarySearchAppBar.defaultProps = {
+//   mode: 'light',
+//   setMode: () => {},
+// };
+
+PrimarySearchAppBar.propTypes = {
+  mode: PropTypes.string.isRequired,
+  setMode: PropTypes.func.isRequired,
+};
+
+export default PrimarySearchAppBar;
