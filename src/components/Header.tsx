@@ -18,6 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { ModeNight } from '@mui/icons-material';
 import { Switch } from '@mui/material';
 import LeftDrawer from './LeftDrawer';
+import CartDrawer from './CartDrawer';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -204,6 +205,7 @@ function PrimarySearchAppBar({
                 <MailIcon />
               </Badge>
             </IconButton>
+
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -212,6 +214,7 @@ function PrimarySearchAppBar({
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+
             <IconButton
               size="large"
               edge="end"
@@ -222,7 +225,20 @@ function PrimarySearchAppBar({
               color="inherit">
               <AccountCircle />
             </IconButton>
+
+            {/* <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              // aria-controls={menuId}
+              aria-haspopup="true"
+              // onClick={handleProfileMenuOpen}
+              color="inherit">
+              <CartDrawer />
+            </IconButton> */}
+            <CartDrawer />
           </Box>
+
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
