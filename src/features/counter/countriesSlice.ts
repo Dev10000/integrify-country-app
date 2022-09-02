@@ -21,7 +21,9 @@ export const fetchCountriesThunk = createAsyncThunk(
     const mapped = response.data.map((country: any, index: any) => ({
       name: country.name.common,
       population: country.population,
-      // languges: Object.values(country.languages).join(', '),
+      languages: country.languages
+        ? Object.values(country.languages).join(', ')
+        : country.languages,
       region: country.region,
       flag: country.flags.png,
       ccn3: country.ccn3,

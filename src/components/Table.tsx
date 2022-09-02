@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 // import moment from 'moment';
@@ -25,6 +25,10 @@ function Table() {
   const dispatch = useDispatch<AppDispatch>();
   const { countries } = useSelector((state: RootState) => state);
   console.log('state', countries);
+
+  useEffect(() => {
+    dispatch(fetchCountriesThunk());
+  }, [dispatch]);
 
   // const countryMapping = (data: any): any => {
   //   let mapped;
@@ -63,7 +67,12 @@ function Table() {
         filterable: false,
       },
       { field: 'name', headerName: 'Name', width: 170 },
-      // { field: 'languages', headerName: 'Languages', width: 200 },
+      {
+        field: 'languages',
+        headerName: 'Languages',
+        width: 200,
+        wordWrap: 'wrap',
+      },
       {
         field: 'region',
         headerName: 'Region',
@@ -99,9 +108,6 @@ function Table() {
         display: 'flex',
         flexDirection: 'column',
       }}>
-      <button type="button" onClick={() => dispatch(fetchCountriesThunk())}>
-        Button
-      </button>
       <Typography
         variant="h3"
         component="h3"
