@@ -8,24 +8,10 @@ import { fetchCountriesThunk } from '../features/counter/countriesSlice';
 import { AppDispatch, RootState } from '../app/store';
 import UsersActions from './UsersActions';
 
-// const rowData = [
-//   {
-//     id: '1',
-//     row: '1',
-//     name: 'Test Name',
-//     languages: 'test@email.com',
-//     region: '12345',
-//     flagURL: '',
-//     // createdAt: '2022-03-10T11:51:46.607+00:00',
-//     population: '12345678',
-//     role: 'basic',
-//   },
-// ];
-
 function Table() {
   const dispatch = useDispatch<AppDispatch>();
   const { countries } = useSelector((state: RootState) => state);
-  const [rowId, setRowId] = useState(null);
+  const [rowId, setRowId] = useState<any>(null);
 
   useEffect(() => {
     dispatch(fetchCountriesThunk());
@@ -60,10 +46,10 @@ function Table() {
         renderCell: (index) => index.api.getRowIndex(index.row.row) + 1,
       },
       {
-        field: 'flag',
+        field: 'flagURL',
         headerName: 'Flag',
         width: 60,
-        renderCell: (params) => <Avatar src={params.row.flag} />,
+        renderCell: (params) => <Avatar src={params.row.flagURL} />,
         sortable: false,
         filterable: false,
       },
@@ -103,11 +89,11 @@ function Table() {
         headerName: 'Add to Cart',
         type: 'actions',
         renderCell: (params) => (
-          <UsersActions props={undefined} {...{ params, rowId, setRowId }} />
+          <UsersActions {...{ params, rowId, setRowId }} />
         ),
       },
     ],
-    []
+    [rowId]
   );
 
   return (
@@ -133,6 +119,7 @@ function Table() {
           rows={countries.flat}
           // rows={[]}
           getRowId={(row: any) => row.row}
+          onCellEditCommit={(params) => setRowId(params.id)}
         />
       </Paper>
     </Box>

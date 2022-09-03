@@ -25,7 +25,7 @@ export const fetchCountriesThunk = createAsyncThunk(
         ? Object.values(country.languages).join(', ')
         : country.languages,
       region: country.region,
-      flag: country.flags.png,
+      flagURL: country.flags.png,
       ccn3: country.ccn3,
       row: index.toString(),
     }));
