@@ -10,14 +10,23 @@ import {
   List,
   Drawer,
   Box,
+  ListItemIcon,
 } from '@mui/material';
-import { ShoppingCart } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
+import { Delete, ShoppingCart } from '@mui/icons-material';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../app/store';
+import { removeItem } from '../features/counter/cartSlice';
 
 export default function CartDrawer() {
   const { cart } = useSelector((state: RootState) => state);
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const removeFromCart = (name: any) => {
+    dispatch(removeItem(name));
+    console.log(name);
+    // setSuccess(false);
+  };
 
   return (
     <React.Fragment key="right">
@@ -43,6 +52,9 @@ export default function CartDrawer() {
                     <Avatar alt={item.name} src={item.flagURL} />
                   </ListItemAvatar>
                   <ListItemText primary={item.name} />
+                  <ListItemIcon>
+                    <Delete onClick={() => removeFromCart(item.name)} />
+                  </ListItemIcon>
                 </ListItemButton>
               </ListItem>
             ))}

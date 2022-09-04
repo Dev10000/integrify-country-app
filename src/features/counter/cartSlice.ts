@@ -3,12 +3,10 @@ import { RootState } from '../../app/store';
 
 export interface CartState {
   cartItems: { name: string; flagURL: string }[];
-  itemExists: boolean;
 }
 
 const initialState: CartState = {
   cartItems: [],
-  itemExists: false,
 };
 
 export const cartSlice = createSlice({
@@ -20,17 +18,16 @@ export const cartSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; flagURL: string }>
     ) => {
-      const findItem = state.cartItems.find(
-        (item) => item.flagURL === action.payload.flagURL
+      const findCountry = state.cartItems.find(
+        (country) => country.name === action.payload.name
       );
-      if (!findItem) {
-        state.itemExists = true;
+      if (!findCountry) {
         state.cartItems = [...state.cartItems, action.payload];
       }
     },
     removeItem: (state, action) => {
       state.cartItems = state.cartItems.filter(
-        (item) => item.name !== action.payload
+        (country) => country.name !== action.payload
       );
     },
   },

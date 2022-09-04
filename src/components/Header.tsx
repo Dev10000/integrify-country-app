@@ -63,7 +63,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function PrimarySearchAppBar({
   mode,
   setMode,
-}: any): InferProps<typeof PrimarySearchAppBar.propTypes> & any {
+  setColor,
+}: InferProps<typeof PrimarySearchAppBar.propTypes>): any {
   const [anchorEl, setAnchorEl]: any = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl]: any = React.useState(null);
 
@@ -170,13 +171,13 @@ function PrimarySearchAppBar({
             <MenuIcon />
             
           </IconButton> */}
-          <LeftDrawer />
+          <LeftDrawer setColor={setColor} />
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}>
-            MUI
+            Integrify MUI
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -266,6 +267,7 @@ function PrimarySearchAppBar({
 PrimarySearchAppBar.propTypes = {
   mode: PropTypes.string.isRequired,
   setMode: PropTypes.func.isRequired,
+  setColor: PropTypes.func.isRequired,
 };
 
 export default PrimarySearchAppBar;

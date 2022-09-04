@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 // import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { fetchCountriesThunk } from '../features/counter/countriesSlice';
 import { AppDispatch, RootState } from '../app/store';
 import UsersActions from './UsersActions';
@@ -11,7 +12,7 @@ import UsersActions from './UsersActions';
 function Table() {
   const dispatch = useDispatch<AppDispatch>();
   const { countries } = useSelector((state: RootState) => state);
-  const [rowId, setRowId] = useState<any>(null);
+  // const [rowId, setRowId] = useState<number | string | null>(null);
 
   useEffect(() => {
     dispatch(fetchCountriesThunk());
@@ -89,11 +90,13 @@ function Table() {
         headerName: 'Add to Cart',
         type: 'actions',
         renderCell: (params) => (
-          <UsersActions {...{ params, rowId, setRowId }} />
+          <UsersActions {...{ params /* rowId, setRowId */ }} />
         ),
       },
     ],
-    [rowId]
+    [
+      /* rowId */
+    ]
   );
 
   return (
@@ -119,7 +122,7 @@ function Table() {
           rows={countries.flat}
           // rows={[]}
           getRowId={(row: any) => row.row}
-          onCellEditCommit={(params) => setRowId(params.id)}
+          /* onCellEditCommit={(params) => setRowId(params.id)} */
         />
       </Paper>
     </Box>

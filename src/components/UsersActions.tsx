@@ -1,32 +1,47 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
+import React from 'react';
+import PropTypes, { InferProps } from 'prop-types';
 import { Check } from '@mui/icons-material';
 import { Box, Fab } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useState } from 'react';
-import { addItem } from '../features/counter/cartSlice';
+import { addItem, removeItem } from '../features/counter/cartSlice';
 import { AppDispatch, RootState } from '../app/store';
-// @ts-ignore
-function UsersActions({ params, rowId, setRowId }) {
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
-  const { countries } = useSelector((state: RootState) => state);
 
-  const handleSubmit = async () => {
-    setLoading(true);
+// interface UsersActionsProps {
+//   params: any;
+//   rowId: string | number | null;
+//   setRowId: Dispatch<SetStateAction<string | number | null>>;
+// }
+
+function UsersActions({
+  params,
+}: /*   rowId,
+  setRowId, */
+InferProps<typeof UsersActions.propTypes>): any {
+  const { cart } = useSelector((state: RootState) => state);
+  // const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const itemExistsInCart = () => {
+    if (cart.cartItems.some((item) => params.row.name === item.name))
+      return true;
+    return false;
+  };
+
+  const addToCart = async () => {
+    // setLoading(true);
     const { name, flagURL } = params.row;
     dispatch(addItem({ name: name, flagURL: flagURL }));
+    // setLoading(false);
+  };
 
-    setLoading(false);
+  const removeFromCart = async () => {
+    dispatch(removeItem(params.row.name));
   };
 
   return (
     <Box sx={{ m: 1, position: 'relative' }}>
-      {success ? (
+      {itemExistsInCart() ? (
         <Fab
           color="primary"
           sx={{
@@ -34,7 +49,8 @@ function UsersActions({ params, rowId, setRowId }) {
             height: 40,
             bgcolor: green[500],
             '&:hover': { bgcolor: green[700] },
-          }}>
+          }}
+          onClick={removeFromCart}>
           <Check />
         </Fab>
       ) : (
@@ -43,16 +59,31 @@ function UsersActions({ params, rowId, setRowId }) {
           sx={{
             width: 40,
             height: 40,
-            // bgcolor: green[500],
-            // '&:hover': { bgcolor: green[700] },
           }}
           // disabled={params.id !== rowId}
-          onClick={handleSubmit}>
+          onClick={addToCart}>
           <Check />
         </Fab>
       )}
     </Box>
   );
 }
+
+// Note! To have nullable proptype you need to take off "isRequired" and
+// add defaultProps "null", see below "rowId" for example
+/* UsersActions.defaultProps = {
+  rowId: null,
+}; */
+
+UsersActions.propTypes = {
+  params: PropTypes.shape({
+    row: PropTypes.shape({
+      flagURL: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  // rowId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  // setRowId: PropTypes.func.isRequired,
+};
 
 export default UsersActions;

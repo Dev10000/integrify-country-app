@@ -1,20 +1,42 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { IconButton } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import {
+  IconButton,
+  Box,
+  Drawer,
+  List,
+  Divider,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
+import { Circle, Menu } from '@mui/icons-material';
+import PropTypes, { InferProps } from 'prop-types';
+import {
+  amber,
+  blue,
+  blueGrey,
+  indigo,
+  lightGreen,
+  pink,
+} from '@mui/material/colors';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
+const colors = {
+  'blue[500]': blue[500],
+  'pink[500]': pink[500],
+  'lightGreen[500]': lightGreen[500],
+  'amber[500]': amber[500],
+  'blueGrey[800]': blueGrey[800],
+  'indigo[900]': indigo[900],
+} as const;
 
-export default function TemporaryDrawer() {
+type Keys = keyof typeof colors;
+// type Values = typeof colors[Keys];
+
+export default function LeftDrawer({
+  setColor,
+}: InferProps<typeof LeftDrawer.propTypes>) {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -43,27 +65,26 @@ export default function TemporaryDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}>
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+        {[
+          'blue[500]',
+          'pink[500]',
+          'lightGreen[500]',
+          'amber[500]',
+          'blueGrey[800]',
+          'indigo[900]',
+        ].map((text) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <Divider />
+            <ListItemButton onClick={() => setColor(colors[text as Keys])}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <Circle sx={{ color: colors[text as Keys] }} />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText
+                sx={{ color: colors[text as Keys] }}
+                primary={text}
+              />
             </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
+            <Divider />
           </ListItem>
         ))}
       </List>
@@ -93,3 +114,7 @@ export default function TemporaryDrawer() {
     </div>
   );
 }
+
+LeftDrawer.propTypes = {
+  setColor: PropTypes.func.isRequired,
+};
