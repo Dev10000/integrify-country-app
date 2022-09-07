@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import {
   IconButton,
   Box,
@@ -21,7 +21,6 @@ import {
   pink,
 } from '@mui/material/colors';
 
-type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const colors = {
   'blue[500]': blue[500],
   'pink[500]': pink[500],
@@ -37,16 +36,10 @@ type Keys = keyof typeof colors;
 export default function LeftDrawer({
   setColor,
 }: InferProps<typeof LeftDrawer.propTypes>) {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+  const [isOpen, setState] = useState(false);
 
   const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === 'keydown' &&
         ((event as React.KeyboardEvent).key === 'Tab' ||
@@ -55,15 +48,15 @@ export default function LeftDrawer({
         return;
       }
 
-      setState({ ...state, [anchor]: open });
+      setState(open);
     };
 
-  const list = (anchor: Anchor) => (
+  const list = () => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      sx={{ width: 250 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}>
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}>
       <List>
         {[
           'blue[500]',
@@ -95,7 +88,7 @@ export default function LeftDrawer({
     <div>
       <React.Fragment key="left">
         <IconButton
-          onClick={toggleDrawer('left', true)}
+          onClick={toggleDrawer(true)}
           size="large"
           edge="start"
           color="inherit"
@@ -104,11 +97,8 @@ export default function LeftDrawer({
           <Menu />
         </IconButton>
 
-        <Drawer
-          anchor="left"
-          open={state.left}
-          onClose={toggleDrawer('left', false)}>
-          {list('left')}
+        <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
+          {list()}
         </Drawer>
       </React.Fragment>
     </div>

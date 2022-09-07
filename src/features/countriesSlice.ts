@@ -1,16 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { RootState } from '../app/store';
+import { CountryData, CountryFlat } from '../interface';
 
 export interface CountriesState {
-  items: any[];
+  items: CountryData[];
   isLoading: boolean;
-  flat: any[];
+  flat: CountryFlat[];
+  selectedCountry: null | string;
 }
 
 const initialState: CountriesState = {
   items: [],
   isLoading: false,
   flat: [],
+  selectedCountry: null,
 };
 
 export const fetchCountriesThunk = createAsyncThunk(
@@ -18,7 +22,7 @@ export const fetchCountriesThunk = createAsyncThunk(
   async () => {
     const URL = 'https://restcountries.com/v3.1/all';
     const response = await axios.get(URL);
-    const mapped = response.data.map((country: any, index: any) => ({
+    const mapped = response.data.map((country: CountryData, index: number) => ({
       name: country.name.common,
       population: country.population,
       languages: country.languages
@@ -29,7 +33,7 @@ export const fetchCountriesThunk = createAsyncThunk(
       ccn3: country.ccn3,
       row: index.toString(),
     }));
-    console.log('thunk mapped:', mapped);
+    console.log('redux slice thunk async middleware mapped:', mapped);
     return {
       data: response.data,
       status: response.status,
@@ -41,7 +45,11 @@ export const fetchCountriesThunk = createAsyncThunk(
 export const countriesSlice = createSlice({
   name: 'countries',
   initialState,
-  reducers: {},
+  reducers: {
+    selectCountry: (state, action) => {
+      state.selectedCountry = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchCountriesThunk.pending, (state) => {
       state.isLoading = true;
@@ -53,5 +61,10 @@ export const countriesSlice = createSlice({
     });
   },
 });
+
+export const { selectCountry } = countriesSlice.actions;
+
+export const selectOpenCountry = (state: RootState) =>
+  state.countries.selectedCountry;
 
 export default countriesSlice.reducer;

@@ -15,17 +15,15 @@ import {
 import { Delete, ShoppingCart } from '@mui/icons-material';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
-import { removeItem } from '../features/counter/cartSlice';
+import { removeItem } from '../features/cartSlice';
 
 export default function CartDrawer() {
   const { cart } = useSelector((state: RootState) => state);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
-  const removeFromCart = (name: any) => {
+  const removeFromCart = (name: string) => {
     dispatch(removeItem(name));
-    console.log(name);
-    // setSuccess(false);
   };
 
   return (

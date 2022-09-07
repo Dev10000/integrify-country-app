@@ -1,5 +1,4 @@
 .eslintrc.js
-country_data.js
-test.js
-/src/features/counter/**
+/src/features/cra_redux_templates/**
 /src/app/**
+/test/**

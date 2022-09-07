@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import countriesReducer from '../features/counter/countriesSlice';
-import cartReducer from '../features/counter/cartSlice';
+import countriesReducer from '../features/countriesSlice';
+import cartReducer from '../features/cartSlice';
 
 export const store = configureStore({
   reducer: {

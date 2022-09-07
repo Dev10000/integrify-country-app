@@ -1,8 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+import { RootState } from '../app/store';
+
+type CartItems = {
+  name: string;
+  flagURL: string;
+};
 
 export interface CartState {
-  cartItems: { name: string; flagURL: string }[];
+  cartItems: CartItems[];
 }
 
 const initialState: CartState = {
@@ -14,15 +19,12 @@ export const cartSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    addItem: (
-      state,
-      action: PayloadAction<{ name: string; flagURL: string }>
-    ) => {
+    addItem: (state, action: PayloadAction<CartItems>) => {
       const findCountry = state.cartItems.find(
         (country) => country.name === action.payload.name
       );
       if (!findCountry) {
-        state.cartItems = [...state.cartItems, action.payload];
+        state.cartItems.push(action.payload);
       }
     },
     removeItem: (state, action) => {

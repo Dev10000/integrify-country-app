@@ -4,20 +4,14 @@ import { Check } from '@mui/icons-material';
 import { Box, Fab } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, removeItem } from '../features/counter/cartSlice';
+import { addItem, removeItem } from '../features/cartSlice';
 import { AppDispatch, RootState } from '../app/store';
-
-// interface UsersActionsProps {
-//   params: any;
-//   rowId: string | number | null;
-//   setRowId: Dispatch<SetStateAction<string | number | null>>;
-// }
 
 function UsersActions({
   params,
 }: /*   rowId,
   setRowId, */
-InferProps<typeof UsersActions.propTypes>): any {
+InferProps<typeof UsersActions.propTypes>) {
   const { cart } = useSelector((state: RootState) => state);
   // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
@@ -28,14 +22,14 @@ InferProps<typeof UsersActions.propTypes>): any {
     return false;
   };
 
-  const addToCart = async () => {
+  const addToCart = () => {
     // setLoading(true);
     const { name, flagURL } = params.row;
     dispatch(addItem({ name: name, flagURL: flagURL }));
     // setLoading(false);
   };
 
-  const removeFromCart = async () => {
+  const removeFromCart = () => {
     dispatch(removeItem(params.row.name));
   };
 
@@ -71,6 +65,7 @@ InferProps<typeof UsersActions.propTypes>): any {
 
 // Note! To have nullable proptype you need to take off "isRequired" and
 // add defaultProps "null", see below "rowId" for example
+
 /* UsersActions.defaultProps = {
   rowId: null,
 }; */

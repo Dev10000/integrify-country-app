@@ -1,54 +1,48 @@
-/* eslint-disable prettier/prettier */
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Box, Paper, Typography } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-// import moment from 'moment';
+import {
+  DataGrid,
+  GridColDef,
+  GridEventListener,
+  GridToolbar,
+} from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { fetchCountriesThunk } from '../features/counter/countriesSlice';
+import { selectCountry } from '../features/countriesSlice';
 import { AppDispatch, RootState } from '../app/store';
 import UsersActions from './UsersActions';
 
 function Table() {
+  const history = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { countries } = useSelector((state: RootState) => state);
+  const { flat, isLoading } = useSelector(
+    (state: RootState) => state.countries
+  );
   // const [rowId, setRowId] = useState<number | string | null>(null);
 
-  useEffect(() => {
-    dispatch(fetchCountriesThunk());
-  }, [dispatch]);
+  const handleRowClick: GridEventListener<'rowClick'> = (params) => {
+    dispatch(selectCountry(params.row.name));
+    history('/country');
+  };
 
-  // const countryMapping = (data: any): any => {
-  //   let mapped;
-  //   if (data) {
-  //     mapped = data.map((country: any, index: any): any => ({
-  //       name: country.name.common,
-  //       population: country.population,
-  //       languges: JSON.stringify(Object.values(country.languages)),
-  //       region: country.region,
-  //       flag: country.flags.png,
-  //       ccn3: country.ccn3,
-  //       row: index.toString(),
-  //     }));
-  //   }
-  //   console.log('mapped', mapped);
-  //   return mapped;
+  // const setVisible = () => () => {
+  //   console.log(apiRef.current.getAllColumns());
   // };
-
-  console.log('items', countries.items);
-  // console.log('mapping:', countryMapping(countries.items));
-
+  // console.log(setVisible);
   const columns: GridColDef[] = useMemo(
     () => [
       {
         field: 'id',
-        headerName: 'Row ##',
+        headerName: 'Row #',
+        align: 'center',
         filterable: false,
+        width: 60,
         renderCell: (index) => index.api.getRowIndex(index.row.row) + 1,
       },
       {
         field: 'flagURL',
         headerName: 'Flag',
+        align: 'center',
         width: 60,
         renderCell: (params) => <Avatar src={params.row.flagURL} />,
         sortable: false,
@@ -58,33 +52,20 @@ function Table() {
       {
         field: 'languages',
         headerName: 'Languages',
-        width: 200,
+        minWidth: 200,
         wordWrap: 'wrap',
       },
       {
         field: 'region',
         headerName: 'Region',
-        width: 200,
-        // type: 'singleSelect',
-        // valueOptions: ['basic', 'editor', 'admin'],
-        // editable: true,
+        minWidth: 200,
       },
       {
         field: 'population',
         headerName: 'Population',
-        width: 200,
-        // type: 'boolean',
-        // editable: true,
+        autoPageSize: true,
+        minWidth: 200,
       },
-      // {
-      //   field: 'createdAt',
-      //   headerName: 'Created At',
-      //   width: 200,
-      //   renderCell: (params) =>
-      //     moment(params.row.createdAt).format('YYY-MM-DD HH:MM:SS'),
-      // },
-      { field: 'row', headerName: 'Row #', width: 200, sortable: false },
-      { field: 'ccn3', headerName: 'Id', width: 200 },
       {
         field: 'actions',
         headerName: 'Add to Cart',
@@ -118,11 +99,14 @@ function Table() {
           width: '100%',
         }}>
         <DataGrid
+          components={{ Toolbar: GridToolbar }}
+          loading={isLoading}
           columns={columns}
-          rows={countries.flat}
+          rows={flat}
           // rows={[]}
-          getRowId={(row: any) => row.row}
+          getRowId={(row) => row.row}
           /* onCellEditCommit={(params) => setRowId(params.id)} */
+          onRowClick={handleRowClick}
         />
       </Paper>
     </Box>
