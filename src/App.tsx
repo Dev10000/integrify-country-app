@@ -44,7 +44,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(fetchCountriesThunk());
-  }, []);
+  }, [dispatch]);
 
   return (
     <BrowserRouter>

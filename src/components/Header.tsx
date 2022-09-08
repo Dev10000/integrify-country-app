@@ -14,8 +14,11 @@ import {
   MenuItem,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import LeftDrawer from './LeftDrawer';
 import CartDrawer from './CartDrawer';
+import { setSearchInput } from '../features/countriesSlice';
+import { AppDispatch } from '../app/store';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,9 +65,18 @@ function AppBarHeader({
   setMode,
   setColor,
 }: InferProps<typeof AppBarHeader.propTypes>) {
+  // const [searchInput, setSearchInput] = useState<string | number>('');
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
+
+  const handleSearchBarChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    // setSearchInput(event.target.value);
+    dispatch(setSearchInput(event.target.value));
+  };
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -129,7 +141,9 @@ function AppBarHeader({
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              type="text"
+              onChange={handleSearchBarChange}
+              placeholder="Search Country"
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>

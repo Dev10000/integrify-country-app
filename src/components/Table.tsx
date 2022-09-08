@@ -8,18 +8,30 @@ import {
   GridToolbar,
 } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCountry } from '../features/countriesSlice';
+import {
+  selectCountry,
+  selectSearchBarChange,
+} from '../features/countriesSlice';
 import { AppDispatch, RootState } from '../app/store';
 import UsersActions from './UsersActions';
 
 function Table() {
   const history = useNavigate();
+  const searchInput = useSelector(selectSearchBarChange);
   const dispatch = useDispatch<AppDispatch>();
   const { flat, isLoading } = useSelector(
     (state: RootState) => state.countries
   );
-  // const [rowId, setRowId] = useState<number | string | null>(null);
 
+  let tableDataSearchFiltered = flat;
+  if (typeof searchInput === 'string') {
+    tableDataSearchFiltered = flat.filter((country) =>
+      country.name.toLowerCase().includes(searchInput)
+    );
+  }
+
+  // const [rowId, setRowId] = useState<number | string | null>(null);
+  console.log('search', searchInput);
   const handleRowClick: GridEventListener<'rowClick'> = (params) => {
     dispatch(selectCountry(params.row.name));
     history('/country');
@@ -110,7 +122,7 @@ function Table() {
           components={{ Toolbar: GridToolbar }}
           loading={isLoading}
           columns={columns}
-          rows={flat}
+          rows={tableDataSearchFiltered}
           // rows={[]}
           getRowId={(row) => row.row}
           /* onCellEditCommit={(params) => setRowId(params.id)} */

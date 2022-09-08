@@ -8,6 +8,7 @@ export interface CountriesState {
   isLoading: boolean;
   flat: CountryFlat[];
   selectedCountry: null | string;
+  searchInput: null | string | number;
 }
 
 const initialState: CountriesState = {
@@ -15,6 +16,7 @@ const initialState: CountriesState = {
   isLoading: false,
   flat: [],
   selectedCountry: null,
+  searchInput: '',
 };
 
 export const fetchCountriesThunk = createAsyncThunk(
@@ -49,6 +51,11 @@ export const countriesSlice = createSlice({
     selectCountry: (state, action) => {
       state.selectedCountry = action.payload;
     },
+    setSearchInput: (state, action) => {
+      state.searchInput = action.payload;
+      if (typeof state.searchInput === 'string')
+        state.searchInput.toLowerCase();
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchCountriesThunk.pending, (state) => {
@@ -62,9 +69,12 @@ export const countriesSlice = createSlice({
   },
 });
 
-export const { selectCountry } = countriesSlice.actions;
+export const { selectCountry, setSearchInput } = countriesSlice.actions;
 
 export const selectOpenCountry = (state: RootState) =>
   state.countries.selectedCountry;
+
+export const selectSearchBarChange = (state: RootState) =>
+  state.countries.searchInput;
 
 export default countriesSlice.reducer;
