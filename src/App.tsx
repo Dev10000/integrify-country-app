@@ -21,17 +21,35 @@ import { fetchCountriesThunk } from './features/countriesSlice';
 import CountryPage from './components/CountryPage';
 import { AppDispatch } from './app/store';
 
+const colors = [
+  blue[500],
+  pink[500],
+  lightGreen[500],
+  amber[500],
+  blueGrey[800],
+  indigo[900],
+] as const;
+
+// type ColorTypes2 = keyof typeof colors;
+type ColorTypes = typeof colors[number];
+
+const modeFromLocalStorage = localStorage.getItem('mode') || 'light';
+const colorFromLocalStorage = localStorage.getItem('color') || blueGrey[800];
+
+function colorTypeGuard(colorKey: string): colorKey is ColorTypes {
+  return colors.includes(colorKey as ColorTypes);
+}
+
 export default function App() {
   const dispatch = useDispatch<AppDispatch>();
-  const [mode, setMode] = useState<'light' | 'dark'>('light');
-  const [color, setColor] = useState<
-    | typeof blue[500]
-    | typeof pink[500]
-    | typeof lightGreen[500]
-    | typeof amber[500]
-    | typeof blueGrey[800]
-    | typeof indigo[900]
-  >(blueGrey[800]);
+  const [mode, setMode] = useState<'light' | 'dark'>(
+    modeFromLocalStorage !== 'dark' ? 'light' : 'dark'
+  );
+  const [color, setColor] = useState<ColorTypes>(
+    colorTypeGuard(colorFromLocalStorage)
+      ? colorFromLocalStorage
+      : blueGrey[800]
+  );
 
   const themeColorAndMode = createTheme({
     palette: {
@@ -41,6 +59,14 @@ export default function App() {
       },
     },
   });
+
+  useEffect(() => {
+    localStorage.setItem('mode', mode);
+  }, [mode]);
+
+  useEffect(() => {
+    localStorage.setItem('color', color);
+  }, [color]);
 
   useEffect(() => {
     dispatch(fetchCountriesThunk());

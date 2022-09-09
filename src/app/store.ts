@@ -1,12 +1,32 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import countriesReducer from '../features/countriesSlice';
-import cartReducer from '../features/cartSlice';
+import countriesReducer, { CountriesState } from '../features/countriesSlice';
+import cartReducer, { CartState } from '../features/cartSlice';
+
+const cartLocalStorage = JSON.parse(localStorage.getItem('cart') || '[]');
+
+const preloadedState = {
+  countries: {
+    items: [],
+    isLoading: false,
+    flat: [],
+    selectedCountry: null,
+    searchInput: '',
+  },
+  cart: {
+    cartItems: cartLocalStorage,
+  },
+};
 
 export const store = configureStore({
   reducer: {
     countries: countriesReducer,
     cart: cartReducer,
   },
+  preloadedState,
+});
+
+store.subscribe(() => {
+  localStorage.setItem('cart', JSON.stringify(store.getState().cart.cartItems));
 });
 
 export type AppDispatch = typeof store.dispatch;
