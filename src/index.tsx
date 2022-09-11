@@ -1,25 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom'
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import App from './App';
 
-import App from './App'
-import * as serviceWorker from './serviceWorker'
-import makeStore from './redux/store'
+const container = document.getElementById('root')!;
+const root = createRoot(container);
 
-const store = makeStore()
-
-const WithProvider = () => (
-  <Provider store={store}>
-    <Router>
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
       <App />
-    </Router>
-  </Provider>
-)
-
-ReactDOM.render(<WithProvider />, document.getElementById('root'))
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister()
+    </Provider>
+  </React.StrictMode>
+);

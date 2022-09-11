@@ -1,0 +1,4 @@
+.eslintrc.js
+/src/features/cra_redux_templates/**
+/src/app/**
+/test/**
