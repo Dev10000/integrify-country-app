@@ -23,6 +23,10 @@ export const store = configureStore({
     cart: cartReducer,
   },
   preloadedState,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 store.subscribe(() => {
